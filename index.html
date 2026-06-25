@@ -1,0 +1,433 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>¡Hala, Cristóbal! SaaS Premium para Hostelería</title>
+
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet">
+
+  <style>
+    /* -------------------------------------------------
+       Paleta de colores: fondo oscuro y dorado (amber)
+       ------------------------------------------------- */
+    :root {
+      --color-bg-dark: #0d0d0d;          /* casi negro */
+      --color-bg-light: #1e1e1e;         /* gris muy oscuro */
+      --color-accent: #d4af37;           /* oro */
+      --color-text-light: #f5f5f5;       /* casi blanco */
+      --color-text-muted: #b0b0b0;       /* gris claro */
+    }
+
+    /* -------------------------------------------------
+       Reset y tipografía
+       ------------------------------------------------- */
+    *, *::before, *::after { box-sizing: border-box; margin:0; padding:0; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: 'Inter', sans-serif;
+      background-color: var(--color-bg-dark);
+      color: var(--color-text-light);
+      line-height: 1.6;
+    }
+    h1, h2, h3, h4 { font-family: 'Playfair Display', serif; margin:0; }
+    a { color: inherit; text-decoration:none; }
+
+    /* -------------------------------------------------
+       Navbar fija con blur
+       ------------------------------------------------- */
+    .navbar {
+      position: fixed;
+      top:0; left:0; right:0;
+      height: 4rem;
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      padding:0 1.5rem;
+      background: rgba(13,13,13,0.7);
+      backdrop-filter: blur(8px);
+      z-index: 1000;
+    }
+    .navbar .logo {
+      height: 2.5rem;
+    }
+    .navbar .menu {
+      display:flex;
+      gap:1.5rem;
+    }
+    .navbar .menu a {
+      font-weight:600;
+      color: var(--color-text-muted);
+      transition: color .3s;
+    }
+    .navbar .menu a:hover { color: var(--color-accent); }
+
+    /* -------------------------------------------------
+       Hero espectacular
+       ------------------------------------------------- */
+    .hero {
+      min-height:80vh;
+      display:flex;
+      flex-direction:column;
+      align-items:center;
+      justify-content:center;
+      text-align:center;
+      background: linear-gradient(135deg, var(--color-bg-dark) 0%, #2a2a2a 70%);
+      position:relative;
+      overflow:hidden;
+    }
+    .hero::before {
+      content:"";
+      position:absolute;
+      inset:0;
+      background: url('https://images.unsplash.com/photo-1504674900247-0877df9cc836?auto=format&fit=crop&w=1600&q=80') center/cover no-repeat;
+      opacity:0.35;
+      z-index:-1;
+    }
+    .hero .overlay {
+      position:absolute;
+      inset:0;
+      background: rgba(13,13,13,0.6);
+      z-index:-1;
+    }
+    .hero h1 {
+      font-size:3.5rem;
+      font-weight:700;
+      background: linear-gradient(45deg, var(--color-accent), #ffd700);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      text-shadow: 2px 2px 4px rgba(0,0,0,0.6);
+    }
+    .hero p {
+      margin-top:1rem;
+      font-size:1.2rem;
+      color: var(--color-text-muted);
+    }
+    .hero .cta {
+      margin-top:2rem;
+      padding:0.9rem 2rem;
+      background: var(--color-accent);
+      color: var(--color-bg-dark);
+      font-weight:600;
+      border-radius:0.5rem;
+      box-shadow:0 4px 12px rgba(212,175,55,0.4);
+      transition: transform .2s, box-shadow .2s;
+    }
+    .hero .cta:hover {
+      transform:scale(1.05);
+      box-shadow:0 6px 16px rgba(212,175,55,0.6);
+    }
+
+    /* -------------------------------------------------
+       Sección de servicios (tarjetas)
+       ------------------------------------------------- */
+    .services {
+      padding:4rem 1rem;
+      background: var(--color-bg-light);
+    }
+    .services .grid {
+      display:grid;
+      grid-template-columns:repeat(auto-fit, minmax(280px,1fr));
+      gap:2rem;
+    }
+    .card {
+      background: var(--color-bg-dark);
+      border-radius:0.8rem;
+      overflow:hidden;
+      box-shadow:0 4px 12px rgba(0,0,0,0.4);
+      transition:transform .3s, box-shadow .3s;
+    }
+    .card:hover {
+      transform:translateY(-6px);
+      box-shadow:0 8px 20px rgba(0,0,0,0.6);
+    }
+    .card .icon {
+      font-size:3rem;
+      text-align:center;
+      padding:1rem 0;
+      color: var(--color-accent);
+    }
+    .card .content {
+      padding:1rem 1.5rem 2rem;
+    }
+    .card h3 {
+      font-size:1.4rem;
+      margin-bottom:0.5rem;
+      color: var(--color-text-light);
+    }
+    .card p {
+      font-size:0.95rem;
+      color: var(--color-text-muted);
+    }
+
+    /* -------------------------------------------------
+       Estadísticas con contadores
+       ------------------------------------------------- */
+    .stats {
+      padding:3rem 1rem;
+      background: var(--color-bg-dark);
+      color: var(--color-text-light);
+    }
+    .stats .container {
+      display:flex;
+      flex-wrap:wrap;
+      justify-content:center;
+      gap:2rem;
+    }
+    .stat {
+      text-align:center;
+    }
+    .stat .number {
+      font-size:2.8rem;
+      font-weight:700;
+      color: var(--color-accent);
+    }
+    .stat .label {
+      margin-top:0.4rem;
+      font-size:1rem;
+      color: var(--color-text-muted);
+    }
+
+    /* -------------------------------------------------
+       Footer completo
+       ------------------------------------------------- */
+    .footer {
+      background: var(--color-bg-light);
+      color: var(--color-text-muted);
+      padding:3rem 1rem;
+    }
+    .footer .inner {
+      max-width:1200px;
+      margin:auto;
+      display:flex;
+      flex-wrap:wrap;
+      gap:2rem;
+    }
+    .footer .col {
+      flex:1 1 200px;
+    }
+    .footer h4 {
+      margin-bottom:0.8rem;
+      font-size:1.2rem;
+      color: var(--color-text-light);
+    }
+    .footer a {
+      display:block;
+      margin-bottom:0.4rem;
+      font-size:0.95rem;
+      color: var(--color-text-muted);
+      transition:color .2s;
+    }
+    .footer a:hover { color: var(--color-accent); }
+
+    .footer .credits {
+      margin-top:2rem;
+      text-align:center;
+      font-size:0.85rem;
+      color: var(--color-text-muted);
+    }
+
+    /* -------------------------------------------------
+       Botón flotante WhatsApp
+       ------------------------------------------------- */
+    .whatsapp-float {
+      position:fixed;
+      bottom:1.5rem;
+      right:1.5rem;
+      background:#25D366;
+      color:#fff;
+      width:3.6rem;
+      height:3.6rem;
+      border-radius:50%;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      box-shadow:0 4px 12px rgba(0,0,0,0.3);
+      z-index:1000;
+      transition:transform .2s, background .2s;
+    }
+    .whatsapp-float:hover {
+      background:#20ba5a;
+      transform:scale(1.07);
+    }
+
+    /* -------------------------------------------------
+       Animaciones de scroll (fade-in)
+       ------------------------------------------------- */
+    .fade-in {
+      opacity:0;
+      transform:translateY(20px);
+      transition:opacity .6s ease-out, transform .6s ease-out;
+    }
+    .fade-in.visible { opacity:1; transform:none; }
+
+    /* -------------------------------------------------
+       Media queries (mobile first)
+       ------------------------------------------------- */
+    @media (max-width: 600px) {
+      .hero h1 { font-size:2.8rem; }
+      .navbar .menu { display:none; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Navbar fija -->
+  <nav class="navbar">
+    <img src="https://images.unsplash.com/photo-1555396273-367ea4eb4db5?auto=format&fit=crop&w=80&q=80" alt="Logo" class="logo">
+    <div class="menu">
+      <a href="#servicios">Servicios</a>
+      <a href="#estadisticas">Estadísticas</a>
+      <a href="#contacto">Contacto</a>
+    </div>
+  </nav>
+
+  <!-- Hero espectacular -->
+  <section class="hero">
+    <div class="overlay"></div>
+    <h1>¡Hala, Cristóbal!</h1>
+    <p>La solución SaaS premium que transforma la hostelería en una experiencia digital de alto nivel.</p>
+    <a href="#servicios" class="cta">Descubre nuestras ventajas</a>
+  </section>
+
+  <!-- Servicios en tarjetas -->
+  <section id="servicios" class="services">
+    <h2 class="fade-in" style="text-align:center; font-size:2rem; margin-bottom:2rem;">¿Qué hacemos?</h2>
+    <div class="grid">
+      <!-- Tarjeta 1 -->
+      <div class="card fade-in">
+        <div class="icon">🍽️</div>
+        <div class="content">
+          <h3>Menú Digital Interactivo</h3>
+          <p>Los comensales escanean un QR y acceden a una carta visual con fotos de alta resolución y descripciones persuasivas.</p>
+        </div>
+      </div>
+      <!-- Tarjeta 2 -->
+      <div class="card fade-in">
+        <div class="icon">📊</div>
+        <div class="content">
+          <h3>Analytics en Tiempo Real</h3>
+          <p>Controla ventas, rotación de mesas y preferencias de platos con dashboards intuitivos.</p>
+        </div>
+      </div>
+      <!-- Tarjeta 3 -->
+      <div class="card fade-in">
+        <div class="icon">💳</div>
+        <div class="content">
+          <h3>Pagos Integrados</h3>
+          <p>Permite a los clientes pagar directamente desde su móvil con pasarelas seguras y sin fricción.</p>
+        </div>
+      </div>
+      <!-- Tarjeta 4 -->
+      <div class="card fade-in">
+        <div class="icon">🛎️</div>
+        <div class="content">
+          <h3>Gestión de Reservas</h3>
+          <p>Un sistema de reservas online que sincroniza disponibilidad en tiempo real y reduce no‑shows.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Estadísticas con contadores -->
+  <section id="estadisticas" class="stats">
+    <h2 class="fade-in" style="text-align:center; font-size:2rem; margin-bottom:2rem;">Nuestro Impacto</h2>
+    <div class="container">
+      <div class="stat fade-in">
+        <div class="number" data-target="1500">0</div>
+        <div class="label">Restaurantes activos</div>
+      </div>
+      <div class="stat fade-in">
+        <div class="number" data-target="320000">0</div>
+        <div class="label">Pedidos procesados</div>
+      </div>
+      <div class="stat fade-in">
+        <div class="number" data-target="98">0</div>
+        <div class="label">% Satisfacción</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer completo -->
+  <footer id="contacto" class="footer">
+    <div class="inner">
+      <div class="col">
+        <h4>¡Hala, Cristóbal!</h4>
+        <p>Transformamos la experiencia gastronómica con tecnología de vanguardia.</p>
+      </div>
+      <div class="col">
+        <h4>Enlaces rápidos</h4>
+        <a href="#servicios">Servicios</a>
+        <a href="#estadisticas">Estadísticas</a>
+        <a href="#contacto">Contacto</a>
+      </div>
+      <div class="col">
+        <h4>Contacto</h4>
+        <a href="mailto:[TU EMAIL]">[TU EMAIL]</a>
+        <a href="https://wa.me/[TU WHATSAPP]" target="_blank">WhatsApp</a>
+        <a href="#">Dirección (próximamente)</a>
+      </div>
+    </div>
+    <div class="credits">
+      © 2026 ¡Hala, Cristóbal! Todos los derechos reservados.
+    </div>
+  </footer>
+
+  <!-- Botón flotante WhatsApp -->
+  <a href="https://wa.me/[TU WHATSAPP]" class="whatsapp-float" target="_blank" aria-label="WhatsApp">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24" fill="currentColor">
+      <path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946C.06 5.348 5.4.011 12.017.011c3.205.001 6.22 1.249 8.49 3.52 2.27 2.27 3.514 5.287 3.511 8.491-.003 6.66-5.343 11.997-11.963 11.997-2.005-.001-3.973-.5-5.713-1.448L0 24zm6.59-4.846c1.657.982 3.411 1.5 5.364 1.501 5.496 0 9.97-4.474 9.973-9.976.002-2.665-1.033-5.171-2.913-7.051C17.19 1.748 14.687.712 12.028.712c-5.502 0-9.979 4.474-9.982 9.976-.001 1.905.498 3.766 1.448 5.394l-.999 3.648 3.733-.979z"/>
+    </svg>
+  </a>
+
+  <!-- Scripts: IntersectionObserver + Contadores -->
+  <script>
+    // -------------------------------------------------
+    // Fade‑in on scroll
+    // -------------------------------------------------
+    const faders = document.querySelectorAll('.fade-in');
+    const options = {
+      threshold: 0.15,
+      rootMargin: "0px 0px -50px 0px"
+    };
+    const appearOnScroll = new IntersectionObserver(function(entries, appearOnScroll){
+      entries.forEach(entry => {
+        if (!entry.isIntersecting) return;
+        entry.target.classList.add('visible');
+        appearOnScroll.unobserve(entry.target);
+      });
+    }, options);
+    faders.forEach(fader => {
+      appearOnScroll.observe(fader);
+    });
+
+    // -------------------------------------------------
+    // Contadores animados
+    // -------------------------------------------------
+    const counters = document.querySelectorAll('.number');
+    const counterOptions = {
+      threshold: 0.6
+    };
+    const runCounters = new IntersectionObserver(function(entries, runCounters){
+      entries.forEach(entry => {
+        if (!entry.isIntersecting) return;
+        const el = entry.target;
+        const target = +el.getAttribute('data-target');
+        const duration = 2000;
+        const stepTime = Math.abs(Math.floor(duration / target));
+        let current = 0;
+        const timer = setInterval(() => {
+          current += 1;
+          el.textContent = current;
+          if (current >= target) clearInterval(timer);
+        }, stepTime);
+        runCounters.unobserve(el);
+      });
+    }, counterOptions);
+    counters.forEach(counter => {
+      runCounters.observe(counter);
+    });
+  </script>
+</body>
+</html>
